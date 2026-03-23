@@ -1,14 +1,782 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>GrowthBridge Media</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GrowthBridge Media</title>
+  <meta name="description" content="GrowthBridge Media connects ambitious brands with high-converting creators for influencer campaigns that drive reach, trust, and sales." />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #11182d;
+      --card: rgba(255,255,255,0.06);
+      --card-border: rgba(255,255,255,0.12);
+      --text: #eef2ff;
+      --muted: #aab4d6;
+      --accent: #6ea8ff;
+      --accent-2: #8b5cf6;
+      --success: #7dd3fc;
+      --shadow: 0 10px 30px rgba(0,0,0,0.25);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(110,168,255,0.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(139,92,246,0.16), transparent 25%),
+        linear-gradient(180deg, #0a0f1d 0%, #0f172a 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(8, 13, 26, 0.72);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: var(--shadow);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 18px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      transition: 0.25s ease;
+      cursor: pointer;
+    }
+
+    .cta-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: white;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-primary:hover { transform: translateY(-2px); }
+
+    .cta-secondary {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.12);
+      color: var(--text);
+    }
+
+    .cta-secondary:hover { background: rgba(255,255,255,0.08); }
+
+    .hero {
+      padding: 74px 0 32px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--success);
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(38px, 6vw, 70px);
+      line-height: 1.02;
+      letter-spacing: -1.8px;
+    }
+
+    .hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.7;
+      max-width: 64ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .stat, .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .stat {
+      padding: 18px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero-visual {
+      position: relative;
+      min-height: 520px;
+    }
+
+    .floating {
+      position: absolute;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .phone {
+      inset: 22px 36px 22px 36px;
+      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+    }
+
+    .phone-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .campaign-list { padding: 18px; display: grid; gap: 14px; }
+
+    .campaign {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .campaign strong { display: block; margin-bottom: 8px; }
+    .campaign small { color: var(--muted); }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .tag {
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #dbe7ff;
+      background: rgba(110,168,255,0.16);
+      border: 1px solid rgba(110,168,255,0.26);
+    }
+
+    .mini-card {
+      width: 210px;
+      padding: 16px;
+    }
+
+    .mini-card strong { display:block; font-size: 16px; margin-bottom: 6px; }
+    .mini-card p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+    .card-1 { top: 8px; left: 0; }
+    .card-2 { bottom: 20px; left: 18px; }
+    .card-3 { top: 58px; right: 0; }
+
+    .section {
+      padding: 82px 0;
+    }
+
+    .section-head {
+      margin-bottom: 28px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 42px);
+      letter-spacing: -0.8px;
+    }
+
+    .section-head p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      max-width: 65ch;
+      line-height: 1.7;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .feature-card {
+      padding: 24px;
+    }
+
+    .feature-card .icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, rgba(110,168,255,0.3), rgba(139,92,246,0.3));
+      font-size: 24px;
+    }
+
+    .feature-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .audience-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 26px;
+    }
+
+    .panel h3 { margin-top: 0; font-size: 24px; }
+    .panel p { color: var(--muted); line-height: 1.7; }
+
+    .checklist {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: start;
+      gap: 12px;
+      color: #dfe8ff;
+    }
+
+    .check {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      background: rgba(125,211,252,0.16);
+      border: 1px solid rgba(125,211,252,0.22);
+      color: var(--success);
+      font-size: 14px;
+      margin-top: 1px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .step {
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-num {
+      font-size: 13px;
+      color: var(--success);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .step h4 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .contact-wrap {
+      display: grid;
+      grid-template-columns: 1fr 0.95fr;
+      gap: 18px;
+    }
+
+    .contact-card, .contact-form {
+      padding: 28px;
+    }
+
+    .contact-points {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .contact-point {
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .contact-point span {
+      display: block;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #dbe4ff;
+      font-weight: 600;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      outline: none;
+      font: inherit;
+    }
+
+    input::placeholder, textarea::placeholder { color: #8fa0cb; }
+    textarea { min-height: 130px; resize: vertical; }
+
+    .footer {
+      padding: 26px 0 40px;
+      color: var(--muted);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 36px;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .pill-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .pill {
+      font-size: 13px;
+      color: #dce8ff;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .audience-wrap,
+      .contact-wrap,
+      .grid-3,
+      .steps {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-visual { min-height: 440px; }
+      .mini-card { width: 180px; }
+    }
+
+    @media (max-width: 760px) {
+      .nav-inner { flex-wrap: wrap; }
+      .nav-links { display: none; }
+      .hero-grid,
+      .audience-wrap,
+      .contact-wrap,
+      .grid-3,
+      .steps,
+      .hero-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .hero { padding-top: 46px; }
+      .hero-visual { min-height: 460px; }
+      .phone { inset: 18px 12px 18px 12px; }
+      .mini-card { width: 170px; }
+      .card-1 { top: 0; left: 0; }
+      .card-2 { bottom: 0; left: 0; }
+      .card-3 { top: 52px; right: 0; }
+      .section { padding: 64px 0; }
+      h1 { letter-spacing: -1px; }
+    }
+  </style>
 </head>
-
 <body>
-<h1>GrowthBridge Media</h1>
-<p>Connecting Brands with Creators.</p>
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">
+        <div class="logo">GB</div>
+        <div>GrowthBridge Media</div>
+      </a>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#brands">For Brands</a>
+        <a href="#creators">For Creators</a>
+        <a href="#process">Process</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <a class="cta cta-primary" href="#contact">Book a Call</a>
+    </div>
+  </nav>
 
-<p>Contact: growthbridge.media@gmail.com</p>
+  <header class="hero" id="top">
+    <div class="container hero-grid">
+      <div>
+        <div class="eyebrow">● Performance-driven influencer partnerships</div>
+        <h1>Connecting brands with creators that actually move attention.</h1>
+        <p>
+          GrowthBridge Media helps brands launch high-trust influencer campaigns and helps creators find serious brand partnerships. We focus on fit, reach, conversion potential, and clear campaign execution.
+        </p>
+        <div class="hero-actions">
+          <a class="cta cta-primary" href="#contact">Start a Campaign</a>
+          <a class="cta cta-secondary" href="mailto:growthbridge.media@gmail.com">Email Us</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>50+</strong>
+            <span>Creator relationships built</span>
+          </div>
+          <div class="stat">
+            <strong>10M+</strong>
+            <span>Combined audience potential</span>
+          </div>
+          <div class="stat">
+            <strong>24h</strong>
+            <span>Average first response time</span>
+          </div>
+        </div>
+      </div>
 
+      <div class="hero-visual">
+        <div class="floating phone">
+          <div class="phone-top">
+            <span>Campaign dashboard</span>
+            <span>Live outreach</span>
+          </div>
+          <div class="campaign-list">
+            <div class="campaign">
+              <strong>Skincare Brand Launch</strong>
+              <small>Matched with beauty creators for UGC, reels, and review content.</small>
+              <div class="tag-row">
+                <span class="tag">Beauty</span>
+                <span class="tag">UGC</span>
+                <span class="tag">Reels</span>
+              </div>
+            </div>
+            <div class="campaign">
+              <strong>Wellness Product Promotion</strong>
+              <small>Targeted creator shortlist based on niche relevance and engagement quality.</small>
+              <div class="tag-row">
+                <span class="tag">Wellness</span>
+                <span class="tag">Affiliate</span>
+                <span class="tag">Performance</span>
+              </div>
+            </div>
+            <div class="campaign">
+              <strong>Home & Lifestyle Collaboration</strong>
+              <small>Brand-creator communication, negotiation, and posting coordination.</small>
+              <div class="tag-row">
+                <span class="tag">Lifestyle</span>
+                <span class="tag">Partnerships</span>
+                <span class="tag">Outreach</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="floating mini-card card-1">
+          <strong>Brand Outreach</strong>
+          <p>Personalized pitches, creator matching, and campaign structure support.</p>
+        </div>
+
+        <div class="floating mini-card card-2">
+          <strong>Creator Deals</strong>
+          <p>We help creators find aligned brands, sponsorship opportunities, and repeat work.</p>
+        </div>
+
+        <div class="floating mini-card card-3">
+          <strong>Fast Execution</strong>
+          <p>Shortlists, outreach, negotiation, and coordination under one workflow.</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Services built for modern creator marketing</h2>
+          <p>Whether you are a brand trying to find the right creators or a creator looking for better deals, we keep the process simple, strategic, and conversion-focused.</p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card feature-card">
+          <div class="icon">🚀</div>
+          <h3>Influencer Campaign Management</h3>
+          <p>From shortlist creation to communication and coordination, we help structure campaigns that are clear, scalable, and easy to execute.</p>
+        </div>
+        <div class="card feature-card">
+          <div class="icon">🤝</div>
+          <h3>Brand & Creator Partnerships</h3>
+          <p>We identify strong fits between products and creators based on niche, audience alignment, and content style.</p>
+        </div>
+        <div class="card feature-card">
+          <div class="icon">📈</div>
+          <h3>Performance-Led Outreach</h3>
+          <p>Outreach is personalized, targeted, and designed to help brands get replies and creators get serious opportunities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="brands">
+    <div class="container audience-wrap">
+      <div class="card panel">
+        <h3>For Brands</h3>
+        <p>Need creators who actually match your product and audience? We help you identify promising creators, initiate contact, and move campaigns from idea to execution.</p>
+        <ul class="checklist">
+          <li><span class="check">✓</span><span>Creator sourcing by niche, content fit, and positioning</span></li>
+          <li><span class="check">✓</span><span>Campaign outreach support and communication handling</span></li>
+          <li><span class="check">✓</span><span>Partnership coordination for product promos, launches, and UGC</span></li>
+          <li><span class="check">✓</span><span>Simple, fast workflows for early-stage and growing brands</span></li>
+        </ul>
+        <div class="pill-row">
+          <span class="pill">Beauty</span>
+          <span class="pill">Wellness</span>
+          <span class="pill">Lifestyle</span>
+          <span class="pill">Home</span>
+          <span class="pill">Digital Products</span>
+        </div>
+      </div>
+
+      <div class="card panel" id="creators">
+        <h3>For Creators</h3>
+        <p>If you are a creator who wants relevant sponsorships instead of random offers, we help present your profile to brands that align with your niche and content quality.</p>
+        <ul class="checklist">
+          <li><span class="check">✓</span><span>Access to partnership opportunities with aligned brands</span></li>
+          <li><span class="check">✓</span><span>Clear communication for promos, UGC, affiliate, and collab deals</span></li>
+          <li><span class="check">✓</span><span>Support for positioning your content more professionally</span></li>
+          <li><span class="check">✓</span><span>Focus on repeatable creator-brand relationships, not one-off chaos</span></li>
+        </ul>
+        <div class="pill-row">
+          <span class="pill">UGC Creators</span>
+          <span class="pill">TikTok</span>
+          <span class="pill">Instagram</span>
+          <span class="pill">YouTube Shorts</span>
+          <span class="pill">Affiliate Collabs</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>How the process works</h2>
+          <p>A simple workflow designed to reduce friction and speed up collaboration between brands and creators.</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="card step">
+          <div class="step-num">Step 01</div>
+          <h4>Discovery</h4>
+          <p>We understand your niche, product, content style, and collaboration goals.</p>
+        </div>
+        <div class="card step">
+          <div class="step-num">Step 02</div>
+          <h4>Matching</h4>
+          <p>We build a focused shortlist of creator or brand fits based on relevance and campaign angle.</p>
+        </div>
+        <div class="card step">
+          <div class="step-num">Step 03</div>
+          <h4>Outreach</h4>
+          <p>We handle tailored outreach, response tracking, and early conversation flow.</p>
+        </div>
+        <div class="card step">
+          <div class="step-num">Step 04</div>
+          <h4>Coordination</h4>
+          <p>Once both sides are aligned, we help move the collaboration forward smoothly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container contact-wrap">
+      <div class="card contact-card">
+        <h2 style="margin-top:0; font-size: clamp(28px, 4vw, 40px);">Let’s build your next partnership</h2>
+        <p style="color: var(--muted); line-height:1.75;">Whether you are a brand looking for creator partnerships or a creator looking for better deals, send a message and we will get back to you.</p>
+
+        <div class="contact-points">
+          <div class="contact-point">
+            <span>Email</span>
+            <strong><a href="mailto:growthbridge.media@gmail.com">growthbridge.media@gmail.com</a></strong>
+          </div>
+          <div class="contact-point">
+            <span>Best for</span>
+            <strong>Brand outreach, creator applications, and campaign inquiries</strong>
+          </div>
+          <div class="contact-point">
+            <span>Response target</span>
+            <strong>Within 24 hours</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="card contact-form">
+        <h3 style="margin-top:0; font-size: 24px;">Quick inquiry form</h3>
+        <form action="mailto:growthbridge.media@gmail.com" method="post" enctype="text/plain">
+          <div>
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required />
+          </div>
+          <div>
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+          </div>
+          <div>
+            <label for="type">I am a</label>
+            <select id="type" name="type">
+              <option>Brand</option>
+              <option>Creator</option>
+              <option>Agency</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell us about your campaign, audience, niche, or collaboration goal."></textarea>
+          </div>
+          <button class="cta cta-primary" type="submit">Send Inquiry</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>© 2026 GrowthBridge Media. All rights reserved.</div>
+      <div>Built for brand growth and creator partnerships.</div>
+    </div>
+  </footer>
 </body>
 </html>
+
